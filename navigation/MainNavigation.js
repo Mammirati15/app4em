@@ -6,9 +6,9 @@ import SignIn from '../screens/SignInScreen'
 import SignUp from '../screens/SignUpScreen'
 
 const MainNav = createStackNavigator({
-  Home, 
   SignUp,
-  SignIn
+  Home,   
+  SignIn     
 })
 
 export default createAppContainer(MainNav)
