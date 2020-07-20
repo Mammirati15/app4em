@@ -1,9 +1,16 @@
 import React from 'react'
+import { Provider } from 'react-redux'
 import MainNav from './navigation/MainNavigation'
+import { configureStore } from './redux/configureStore' 
+
+const store = configureStore()
+global.store = store
 
 const App = () => {
   return(
-    <MainNav />
+    <Provider store={store}>
+      <MainNav />
+    </Provider>
   )
 }
 

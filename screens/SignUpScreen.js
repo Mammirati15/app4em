@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { TextInput, View, Text, StyleSheet, Button} from 'react-native'
+import { onSignUpSubmit } from '../redux/ActionCreators'
 
 class SignUp extends Component {
   constructor(props){
@@ -23,6 +25,7 @@ class SignUp extends Component {
       <View style={styles.container}>
         <Text style={styles.headingText}>Sign Up</Text>
         <View style={styles.formContainer}>
+        <Text style={{fontSize: 20, color: 'white'}}>{this.props.message}</Text>
           <TextInput 
             style={styles.textInput}
             value={this.state.firstName}
@@ -61,7 +64,13 @@ class SignUp extends Component {
           <Button 
             title="Sign Up"
             style={styles.button}
-            onPress={this.props.onSubmit}
+            onPress={() => this.props.onSubmit(
+              this.state.firstName,
+              this.state.lastName,
+              this.state.email,
+              this.state.password,
+              this.state.passwordConf
+            )}
           />
         </View>
       </View>
@@ -107,4 +116,17 @@ const styles = StyleSheet.create({
   }
 })
 
-export default SignUp;
+const mapStateToProps = (state) => {
+  return {
+    message: state.main.message
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit: function(firstName, lastName, email, password, passwordConf){
+    dispatch( onSignUpSubmit(firstName, lastName, email, password, passwordConf) )
+  }
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
