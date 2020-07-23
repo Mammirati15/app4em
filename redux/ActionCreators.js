@@ -1,7 +1,77 @@
-export const onSignUpSubmit = (firstName, lastName, email, password, passwordConf) => {
+export const onSignUpSubmit = (userData, navigate) => {    
   return (dispatch) => {
-    dispatch({
-      type: 'SIGNUP_SUBMIT_FAILED', message: 'danger'
-    })
-  }
+    if(!userData.firstName){
+      dispatch({
+        type: 'SIGNUP_SUBMIT_FAILED',
+        message: 'First Name is Required'
+      })
+      return Promise.resolve()
+    }
+    const options = {    
+      method: 'POST', 
+      mode: 'cors',    
+      headers: {
+        'Content-Type': 'application/json'        
+      },      
+      body: JSON.stringify(userData) 
+    }
+
+    return fetch('http://localhost:5000/users', options)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        navigate('Home')
+        dispatch({
+          type: 'foo'
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })           
+  }    
 }
+
+export const onSignInSubmit = (userData, navigate) => {    
+  return (dispatch) => {
+    if(!userData.email){
+      dispatch({
+        type: 'SIGNIN_SUBMIT_FAILED',
+        message: 'Email is Required'
+      })
+      return Promise.resolve()
+    }
+    const options = {    
+      method: 'POST', 
+      mode: 'cors',    
+      headers: {
+        'Content-Type': 'application/json'        
+      },      
+      body: JSON.stringify(userData) 
+    }
+
+    return fetch('http://localhost:5000/users', options)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        navigate('Home')
+        dispatch({
+          type: 'foo'
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })           
+  }    
+}
+
+        // dispatch({
+        //   type: 'SIGNUP_SUBMIT_SUCCESS', 
+        //   payload: {data, message:'success'}
+        // })
+      // .catch((err) => {
+      //   console.log(err)
+      //   dispatch({
+      //     type: 'SIGNUP_SUBMIT_FAILED', message: 'danger'
+      //   })
+      // 
+ 

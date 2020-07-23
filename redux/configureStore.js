@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger'
 
 const initialState = {
-  message: 'foo'
+  message: ''
 }
 
 const main = (state=initialState, action) => {

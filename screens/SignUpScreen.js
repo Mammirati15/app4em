@@ -65,12 +65,16 @@ class SignUp extends Component {
             title="Sign Up"
             style={styles.button}
             onPress={() => this.props.onSubmit(
-              this.state.firstName,
-              this.state.lastName,
-              this.state.email,
-              this.state.password,
-              this.state.passwordConf
-            )}
+              {
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                email: this.state.email,
+                password: this.state.password,
+                passwordConf: this.state.passwordConf
+              },
+              this.props.navigation.navigate
+            )
+          }        
           />
         </View>
       </View>
@@ -123,8 +127,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  onSubmit: function(firstName, lastName, email, password, passwordConf){
-    dispatch( onSignUpSubmit(firstName, lastName, email, password, passwordConf) )
+  onSubmit: function(userData, navigate){
+    dispatch( onSignUpSubmit(userData, navigate) )
   }
 })
 
