@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Alert } from 'react-native'
-import { getAllCategories, getYouTubeVideos } from '../src/api'
+import { getAllCategories } from '../src/api'
 import { TouchableOpacity } from 'react-native'
 
 
@@ -28,13 +28,7 @@ class KidsCategoriesScreen extends Component {
   }
 
   onCategoryPress(categoryText){
-    getYouTubeVideos(categoryText)
-      .then(result => {
-        this.props.navigation.navigate(
-          'KidsCategoryVideosScreen', {videos: result.items}
-        )
-        
-      })
+    this.props.navigation.navigate('KidsCategoryVideosScreen', {searchText: categoryText})    
   }
 
   render(){

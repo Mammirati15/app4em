@@ -1,31 +1,45 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { TouchableOpacity } from 'react-native'
+import { getYouTubeVideos } from '../src/api'
 
-class KidsCategoriesScreen extends Component { 
+class KidsCategoriesScreen extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      videos: []
+    }
+  }
   
-  onCategoryPress(categoryText){
-    getYouTubeVideos(categoryText)
+  componentDidMount(){
+    const searchText = this.props.navigation.getParam('searchText', 'cat')
+    getYouTubeVideos(searchText)
       .then(result => {
-        this.props.navigation.navigate(
-          'KidsCategoryVideosScreen', {videos: result.items}
-        )
-        
+        this.setState({videos: result.items})
+        console.log(result)
       })
+  } 
+  
+  onVideoPress(videoId){
+    this.props.navigation.navigate('PlayVideoScreen', {videoId})
   }
 
-  render(){
-    const videos = this.props.navigation.getParam(videos)
+  render(){    
     return(
       <View style={styles.container}>
         <Text style={styles.headingText}>Welcome To Your Dashboard!</Text>
         <Text style={styles.subHeadingText}> Tap a Category to View Videos </Text>              
         <View style={styles.categoryContainer}>            
-          {            
-            videos.map((video, index) => {
+          {           
+            this.state.videos.map((video, index) => {
               return (
-                <TouchableOpacity onPress={() => this.onCategoryPress(video)}>
-                  <Text style={styles.categoryItem} key={index}>{category.text}</Text>
+                <TouchableOpacity onPress={() => this.onVideoPress(video.id.videoId) } key={video.id.videoId}>
+                  <Text 
+                    style={styles.categoryItem} 
+                    
+                  >
+                  {video.snippet.title.substring(0, 50)}
+                  </Text>
                 </TouchableOpacity>
               )                
             })
