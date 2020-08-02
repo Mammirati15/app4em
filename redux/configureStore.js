@@ -1,6 +1,6 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
-import logger from 'redux-logger'
+//import logger from 'redux-logger'
 
 const initialState = {
   message: ''
@@ -20,7 +20,7 @@ export const configureStore = () => {
         combineReducers({
          main
         }),
-        applyMiddleware(thunk, logger)
+        applyMiddleware(thunk)
     );
 
     return store;

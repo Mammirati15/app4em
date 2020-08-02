@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { TextInput, View, Text, StyleSheet, Button} from 'react-native'
-import { getAllCategories, createCategory, getYouTubeVideos } from '../src/api'
+import { getAllCategories, createCategory, getYouTubeVideos, deleteCategory } from '../src/api'
 import { connect } from 'react-redux'
 import { onSelectCategory } from '../redux/ActionCreators'
 
@@ -12,6 +12,7 @@ class ParentDashHome extends Component {
       catName: '',
       categories: []
     }
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   componentDidMount(){
@@ -21,8 +22,7 @@ class ParentDashHome extends Component {
 
   getAllCategories(){
     getAllCategories()
-      .then(result => {
-        console.log(result)
+      .then(result => {        
         this.setState({categories: result.data})
       })
 
@@ -33,10 +33,19 @@ class ParentDashHome extends Component {
   }
 
   onSubmit(){
+    console.log("this", this.state)
     createCategory(this.state.catName)
       .then(resBody => {
         this.getAllCategories()
         this.setState({catName: ''})
+      })
+  }
+
+  onDeleteButtonPress(catId){
+    deleteCategory(catId)
+      .then(response => {
+        this.getAllCategories()
+        console.log(response.status)
       })
   }
 
@@ -56,18 +65,22 @@ class ParentDashHome extends Component {
           <Button 
             title="Create Category"
             style={styles.button}
-            onPress={() => this.props.onSubmit(
-              {
-                catName: this.state.catName,
-                categories: this.state.categories
-              },
-              this.props.navigation.navigate
-            )}              
+            onPress={this.onSubmit}                                         
           />
         </View>
         <View>
           {this.state.categories.map((category) => {
-            return <Text key={category._id}>{category.text}</Text>
+            return (
+              <View style={styles.categoryItemContainer}>
+                <Text style={styles.categoryItemText} key={category._id}>{category.text}</Text>
+                <Button
+                  color= 'red' 
+                  title="Delete"                  
+                  style={styles.deleteButton}
+                  onPress={() => this.onDeleteButtonPress(category._id)}
+                />
+              </View>
+            )
           })}          
         </View>
       </View>      
@@ -101,6 +114,20 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginBottom: 20
   },
+  deleteButton: {
+    width: '30%',
+    color: 'red'
+  },
+  categoryItemContainer: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    marginTop: 10
+  },
+  categoryItemText: {
+    color: 'white',
+    fontSize: 30,
+    paddingHorizontal: 20,
+  }
   
 })
 

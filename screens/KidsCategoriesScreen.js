@@ -39,8 +39,8 @@ class KidsCategoriesScreen extends Component {
         <View style={styles.categoryContainer}>            
           {this.state.categories.map((category) => {
             return (
-              <TouchableOpacity onPress={() => this.onCategoryPress(category.text)}>
-                <Text style={styles.categoryItem} key={category._id}>{category.text}</Text>
+              <TouchableOpacity onPress={() => this.onCategoryPress(category.text)} key={category._id}>
+                <Text style={styles.categoryItem} >{category.text}</Text>
               </TouchableOpacity>
             )                
           })}          

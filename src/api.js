@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch'
-const apiUrl = 'http://localhost:3000/categories'
+const apiUrl = 'http://192.168.1.142:3000/categories'
 const youTubeApiKey = 'AIzaSyB7bKJJSwI9fidWzHisl8xY23OAze3rBUk'
 const youTubeApiUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&key=' + 
   youTubeApiKey + '&q='
@@ -26,6 +26,14 @@ export const createCategory = (catName) => {
   }
   return fetch(apiUrl, options)
     .then(response => response.json())
+}
+
+export const deleteCategory = (catId) => {
+  var options = {
+    method: 'DELETE',
+    mode: 'cors'
+  }
+  return fetch(apiUrl + '/' + catId, options)    
 }
 
 const youTubeData = {
