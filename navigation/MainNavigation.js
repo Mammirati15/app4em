@@ -8,12 +8,16 @@ import ParentDashHomeScreen from '../screens/ParentDashHomeScreen'
 import KidsCategoriesScreen from '../screens/KidsCategoriesScreen'
 import KidsCategoryVideosScreen from '../screens/KidsCategoryVideosScreen'
 import PlayVideoScreen from '../screens/PlayVideoScreen'
+import SelectVideoScreen from '../screens/SelectVideoScreen'
 
 const MainNav = createStackNavigator({
-  KidsCategoryVideosScreen,
   ParentDashHomeScreen,
+  SelectVideoScreen,
+  KidsCategoryVideosScreen,
+  
   KidsCategoriesScreen,
-  PlayVideoScreen, 
+  PlayVideoScreen,
+  //HomeScreen, 
   
   
   
