@@ -9,7 +9,8 @@ class ParentDashHome extends Component {
   constructor(props){
     super(props)
     this.state = {
-      catName: '',
+      name: '',
+      keyWords: '',
       categories: []
     }
     this.onSubmit = this.onSubmit.bind(this)
@@ -28,12 +29,13 @@ class ParentDashHome extends Component {
 
   }
 
-  onChangeText(value){
-    this.setState({catName: value})
+  onChangeText(field, value){
+    this.setState({[field]:  value})
   }
 
-  onSubmit(){    
-    createCategory(this.state.catName)
+  onSubmit(){   
+    console.log('this.state.name', this.state.name) 
+    createCategory(this.state.name, this.state.keyWords)
       .then(resBody => {   
         console.log(resBody)     
         this.props.navigation.navigate("SelectVideoScreen", {category: resBody.data})//this.setState({catName: ''})
@@ -56,9 +58,16 @@ class ParentDashHome extends Component {
         <View>
           <TextInput 
             style={styles.textInput}
-            value={this.state.catName}
-            onChangeText={(newValue) => this.onChangeText(newValue)} 
-            placeholder="Enter a Category"
+            value={this.state.name}
+            onChangeText={(newValue) => this.onChangeText('name', newValue)} 
+            placeholder="Enter a the Category Name"
+            placeholderTextColor="grey"
+          />
+          <TextInput 
+            style={styles.textInput}
+            value={this.state.keyWords}
+            onChangeText={(newValue) => this.onChangeText('keyWords', newValue)} 
+            placeholder="Enter Search Keywords"
             placeholderTextColor="grey"
           />
           <Button 
@@ -71,7 +80,7 @@ class ParentDashHome extends Component {
           {this.state.categories.map((category) => {
             return (
               <View style={styles.categoryItemContainer}>
-                <Text style={styles.categoryItemText} key={category._id}>{category.text}</Text>
+                <Text style={styles.categoryItemText} key={category._id}>{category.name}</Text>
                 <Button
                   color= 'red' 
                   title="Delete"                  

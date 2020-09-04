@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch'
-const apiUrl = 'http://192.168.1.142:3000/categories'
+const apiUrl = 'http://192.168.1.142:3000/cats'
 const youTubeApiKey = 'AIzaSyB7bKJJSwI9fidWzHisl8xY23OAze3rBUk'
 const youTubeApiUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&key=' + 
   youTubeApiKey + '&q='
@@ -15,14 +15,14 @@ export const getAllCategories = () => {
     .then(response => response.json())
 }
 
-export const createCategory = (catName) => {
+export const createCategory = (name, keyWords) => {
   var options = {
     method: 'POST',
     mode: 'cors',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ text: catName })
+    body: JSON.stringify({ name, keyWords})
   }
   return fetch(apiUrl, options)
     .then(response => response.json())
@@ -899,3 +899,26 @@ const youTubeData = {
   ]
 }
 
+const db = {
+  users: [
+    {
+      _id: '1',
+      email: 'example@gmail.com',
+      password: 'gggg'
+    }    
+  ],
+  user_cats: [
+    {
+      _id: '2',
+      user_id: '1',
+      name: 'ANIMALS',
+    }
+  ],
+  user_cat_videos: [
+    {
+      _id: '3',
+      user_cat_id: '2',
+      video_id: 'tt&543'
+    }
+  ]
+}

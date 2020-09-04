@@ -63,9 +63,9 @@ class SelectVideoScreen extends Component{
                   <CheckBox 
                     value={video.selected}
                     onValueChange={(newValue) => this.onCheckboxChange(index, newValue)}
-                    style={{height: 40, width: 40}}
+                    style={{}}
                   />
-                  <TouchableOpacity onPress={() => this.onCategoryPress(video.snippet.title)} key={video.id.videoId}>
+                  <TouchableOpacity key={video.id.videoId}>
                     <Text style={styles.categoryItem} >{video.snippet.title}</Text>
                   </TouchableOpacity>
                 </View>
