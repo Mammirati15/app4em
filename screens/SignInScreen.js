@@ -1,34 +1,39 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { TextInput, View, Text, StyleSheet, Button} from 'react-native'
+import { Button as Rnebutton} from 'react-native-elements'
+import { TextInput, View, Text, StyleSheet, Button, Image} from 'react-native'
 import { onSignInSubmit } from '../redux/ActionCreators'
 
 class SignIn extends Component {
   constructor(props){
     super(props)
-    this.state = {
-      email: '',
+    this.state = {      
+      userName: '',
       password: '',      
     },
     this.onChangeText = this.onChangeText.bind(this)
+    
   }
 
   onChangeText(fieldName, newValue){
     this.setState({[fieldName]: newValue})
   }
 
+  
+
   render(){
     return(
       <View style={styles.container}>
-        <Text style={styles.headingText}>Sign In</Text>
+        <Image style={styles.image} source={require('../src/images/app4em.png')} /> 
+        <Text style={styles.headingText}>Log In</Text>
         <View style={styles.formContainer}>
-        <Text style={{fontSize: 20, color: 'white'}}>{this.props.message}</Text>         
+        <Text style={{fontSize: 20, color: 'black'}}>{this.props.message}</Text>         
           
           <TextInput 
             style={styles.textInput}
             value={this.state.email}
-            onChangeText={(newValue) => this.onChangeText("email", newValue)} 
-            placeholder="Email"
+            onChangeText={(newValue) => this.onChangeText("userName", newValue)} 
+            placeholder="User Name"
             placeholderTextColor="grey"            
           />
           <TextInput 
@@ -40,7 +45,7 @@ class SignIn extends Component {
           />
           
           <Button 
-            title="Sign In"
+            title="Log In"
             style={styles.button}
             onPress={() => this.props.onSubmit(
               {                
@@ -51,18 +56,20 @@ class SignIn extends Component {
             )
           }        
           />
-        </View>
+        <Text style={styles.memberText}>Not a Member Yet?</Text>
+        <Rnebutton onPress={() => this.props.navigation.navigate('SignUp')} type='clear' title="Sign Up Here"/>
+        </View>        
       </View>
     )
   }
 }
 
 SignIn.navigationOptions = {
-  headerTitle: 'Sign Up',
+  headerTitle: 'Log In',
   headerStyle: {
-    backgroundColor: '#3b4c8a'    
+    backgroundColor: 'white'    
   },
-  headerTintColor: 'white'
+  headerTintColor: 'black'
 }
 
 const styles = StyleSheet.create({
@@ -70,11 +77,11 @@ const styles = StyleSheet.create({
     fontSize: 25,
     alignSelf: 'center',
     margin: 20,
-    color: 'white'
+    color: 'black'
   },
   container: {
     flex: 1,
-    backgroundColor: '#3b4c8a'
+    backgroundColor: 'white'
   },
   formContainer: {
     width: '80%',
@@ -82,7 +89,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   textInput: {
-    borderColor: 'white',
+    borderColor: 'black',
     borderWidth: 1,
     color: 'white',
     height: 40,
@@ -92,6 +99,13 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 60
+  },
+  image: {
+    alignSelf: 'center'
+  },
+  memberText: {
+    alignSelf: 'center',
+    marginTop: 20
   }
 })
 

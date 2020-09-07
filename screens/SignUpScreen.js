@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { TextInput, View, Text, StyleSheet, Button} from 'react-native'
+import { Button as Rnebutton} from 'react-native-elements'
+import { ScrollView, TextInput, View, Text, StyleSheet, Button, Image} from 'react-native'
 import { onSignUpSubmit } from '../redux/ActionCreators'
 
 class SignUp extends Component {
   constructor(props){
     super(props)
     this.state = {
-      firstName: '',
-      lastName: '',
+      userName: '',      
       email: '',
       password: '',
       passwordConf: ''
@@ -21,25 +21,19 @@ class SignUp extends Component {
   }
 
   render(){
-    return(
-      <View style={styles.container}>
+    return(      
+      <ScrollView style={styles.container}>
+        <Image style={styles.image} source={require('../src/images/app4em.png')} />       
         <Text style={styles.headingText}>Sign Up</Text>
         <View style={styles.formContainer}>
-        <Text style={{fontSize: 20, color: 'white'}}>{this.props.message}</Text>
+          <Text style={{fontSize: 20, color: 'black'}}>{this.props.message}</Text>
           <TextInput 
             style={styles.textInput}
             value={this.state.firstName}
-            onChangeText={(newValue) => this.onChangeText("firstName", newValue)}  
-            placeholder="First Name"
+            onChangeText={(newValue) => this.onChangeText("userName", newValue)}  
+            placeholder="User Name"
             placeholderTextColor="grey"          
-          />
-          <TextInput 
-            style={styles.textInput}
-            value={this.state.lastName}
-            onChangeText={(newValue) => this.onChangeText("lastName", newValue)}             
-            placeholder="Last Name"
-            placeholderTextColor="grey"            
-          />
+          />          
           <TextInput 
             style={styles.textInput}
             value={this.state.email}
@@ -72,12 +66,14 @@ class SignUp extends Component {
                 password: this.state.password,
                 passwordConf: this.state.passwordConf
               },
-              this.props.navigation.navigate
+              this.props.navigation.navigate('ParentDashHomeScreen')
             )
           }        
           />
-        </View>
-      </View>
+          <Text style={styles.member}>Already a Member?</Text>
+          <Rnebutton onPress={() => this.props.navigation.navigate('SignIn')} type='clear' style={styles.loginBtn} title="Log In"/>
+        </View>        
+      </ScrollView>
     )
   }
 }
@@ -85,9 +81,9 @@ class SignUp extends Component {
 SignUp.navigationOptions = {
   headerTitle: 'Sign Up',
   headerStyle: {
-    backgroundColor: '#3b4c8a'    
+    backgroundColor: 'white'    
   },
-  headerTintColor: 'white'
+  headerTintColor: 'black'
 }
 
 const styles = StyleSheet.create({
@@ -95,11 +91,11 @@ const styles = StyleSheet.create({
     fontSize: 25,
     alignSelf: 'center',
     margin: 20,
-    color: 'white'
+    color: 'black'
   },
   container: {
     flex: 1,
-    backgroundColor: '#3b4c8a'
+    backgroundColor: 'white'
   },
   formContainer: {
     width: '80%',
@@ -107,9 +103,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   textInput: {
-    borderColor: 'white',
+    borderColor: 'black',
     borderWidth: 1,
-    color: 'white',
+    color: 'black',
     height: 40,
     fontSize: 20,
     paddingLeft: 10,
@@ -117,7 +113,14 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 60
-  }
+  },
+  member:{
+    alignSelf: 'center',
+    marginTop: 25
+  },
+  image: {
+    alignSelf: 'center'
+  },  
 })
 
 const mapStateToProps = (state) => {

@@ -11,25 +11,15 @@ import PlayVideoScreen from '../screens/PlayVideoScreen'
 import SelectVideoScreen from '../screens/SelectVideoScreen'
 
 const MainNav = createStackNavigator({
-  
   ParentDashHomeScreen,
+  SignUp,
+  SignIn,
+  Home,   
   SelectVideoScreen,
-  KidsCategoryVideosScreen,
-  
+  KidsCategoryVideosScreen,  
   KidsCategoriesScreen,
   PlayVideoScreen,
-  //HomeScreen, 
-  
-  
-  
- 
-    
-  
-  SignIn,
-  SignUp,
-    
-  Home, 
-       
+  //HomeScreen,                 
 })
 
 export default createAppContainer(MainNav)

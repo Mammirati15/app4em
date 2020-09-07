@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TextInput, View, Text, StyleSheet, Button} from 'react-native'
+import { TextInput, View, Text, StyleSheet, Button, Image} from 'react-native'
 import { getAllCategories, createCategory, getYouTubeVideos, deleteCategory } from '../src/api'
 import { connect } from 'react-redux'
 import { onSelectCategory } from '../redux/ActionCreators'
@@ -53,9 +53,10 @@ class ParentDashHome extends Component {
   render(){
     return(
       <View style={styles.container}>
+        <Image style={styles.image} source={require('../src/images/app4em.png')} />
         <Text style={styles.headingText}>Welcome To Your Dashboard!</Text>
         <Text style={styles.subHeadingText}> Please Enter a Category for Your Child</Text>
-        <View>
+        <View style={styles.formContainer}>
           <TextInput 
             style={styles.textInput}
             value={this.state.name}
@@ -73,7 +74,7 @@ class ParentDashHome extends Component {
           <Button 
             title="Create Category"
             style={styles.button}
-            onPress={this.onSubmit}                                         
+            onPress={this.onSubmit()}                                         
           />
         </View>
         <View>
@@ -99,24 +100,29 @@ class ParentDashHome extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3b4c8a'
+    backgroundColor: 'white'
+  },
+  formContainer: {
+    width: '80%',
+    alignItems: 'stretch',
+    alignSelf: 'center'
   },
   headingText: {
     fontSize: 25,
     alignSelf: 'center',
     margin: 20,
-    color: 'white'
+    color: 'black'
   },
   subHeadingText: {
     fontSize: 18,
     alignSelf: 'center',
     margin: 20,
-    color: 'white'
+    color: 'black'
   },
   textInput: {
-    borderColor: 'white',
+    borderColor: 'black',
     borderWidth: 1,
-    color: 'white',
+    color: 'black',
     height: 40,
     fontSize: 20,
     paddingLeft: 10,
@@ -132,9 +138,12 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   categoryItemText: {
-    color: 'white',
+    color: 'black',
     fontSize: 30,
     paddingHorizontal: 20,
+  },
+  image: {
+    alignSelf: 'center'
   }
   
 })

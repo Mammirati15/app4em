@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, CheckBox, Alert, Button } from 'react-native'
+import { ScrollView, View, Text, TouchableOpacity, StyleSheet, CheckBox, Image, Button } from 'react-native'
 import { getYouTubeVideos } from '../src/api'
 
 
@@ -49,31 +49,32 @@ class SelectVideoScreen extends Component{
   
   render(){
     return(
-      <View style={styles.container}>
-        <Text style={styles.headingText}>Select Your Videos</Text> 
-        <Button 
-          title="Save Changes"
-          onPress={this.onSaveChangesPress}
-        />                     
-        <View style={styles.categoryContainer}>            
-          {this.state.videos.map((video, index) => {
-            return (
-              
+      <ScrollView style={styles.container}>        
+        <Image style={styles.image} source={require('../src/images/app4em.png')} />
+        <Text style={styles.headingText}>Select Your Videos</Text>           
+          
+          <View style={styles.categoryContainer}>            
+            {this.state.videos.map((video, index) => {
+              return (                
                 <View style={{flexDirection: "row"}} >
                   <CheckBox 
                     value={video.selected}
                     onValueChange={(newValue) => this.onCheckboxChange(index, newValue)}
-                    style={{}}
+                    style={styles.checkbox}
                   />
                   <TouchableOpacity key={video.id.videoId}>
                     <Text style={styles.categoryItem} >{video.snippet.title}</Text>
                   </TouchableOpacity>
-                </View>
-                            
-            )                
-          })}          
-        </View>        
-      </View>    
+                </View>                              
+              )                
+            })}          
+          </View>
+          <Button 
+            title="Save Changes"
+            onPress={this.onSaveChangesPress}
+            style={styles.button}
+          />                                    
+      </ScrollView>    
     )
   }
 }
@@ -81,13 +82,13 @@ class SelectVideoScreen extends Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#3b4c8a'
+    backgroundColor: 'white'
   },
   headingText: {
     fontSize: 25,
     alignSelf: 'center',
     margin: 20,
-    color: 'white'
+    color: 'black'
   },
   
   categoryContainer: {
@@ -98,11 +99,22 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'black',
     marginBottom: 20,
-    backgroundColor: 'grey',        
+    backgroundColor: 'pink',        
     textAlign: 'center',    
     fontSize: 25,
-    width: 350    
-  }   
+    width: 275    
+  },
+  image: {
+    alignSelf: 'center'
+  },
+  checkbox: {
+    marginLeft: 0
+  },
+  button: {
+    position:'absolute',
+    bottom:0,
+    alignSelf:'flex-end'
+  }
 })
 
 
