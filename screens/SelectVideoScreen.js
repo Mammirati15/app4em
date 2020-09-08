@@ -16,8 +16,8 @@ class SelectVideoScreen extends Component{
   }
 
   componentDidMount(){
-    // const category = this.props.navigation.getParam('category')
-    // this.setState({category})
+    const category = this.props.navigation.getParam('category')
+    this.setState({category})
     getYouTubeVideos('tacos')
       .then(result => {
         for(var i=0; i<result.items.length; i++){
@@ -44,7 +44,7 @@ class SelectVideoScreen extends Component{
       }
     }
     console.log(selectedVideosIds)
-    //api.saveSelectedVideos(categoryId, selectedVideosIds)
+    api.saveSelectedVideos(categoryId, selectedVideosIds)
   }
   
   render(){
@@ -52,7 +52,12 @@ class SelectVideoScreen extends Component{
       <ScrollView style={styles.container}>        
         <Image style={styles.image} source={require('../src/images/app4em.png')} />
         <Text style={styles.headingText}>Select Your Videos</Text>           
-          
+        <Button 
+            title="Save Changes"
+            onPress={this.onSaveChangesPress}
+            style={styles.button}
+            width= '80%'
+          />                 
           <View style={styles.categoryContainer}>            
             {this.state.videos.map((video, index) => {
               return (                
@@ -69,11 +74,7 @@ class SelectVideoScreen extends Component{
               )                
             })}          
           </View>
-          <Button 
-            title="Save Changes"
-            onPress={this.onSaveChangesPress}
-            style={styles.button}
-          />                                    
+                             
       </ScrollView>    
     )
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TextInput, View, Text, StyleSheet, Button, Image} from 'react-native'
+import { TextInput, View, ScrollView, Text, StyleSheet, Button, Image} from 'react-native'
 import { getAllCategories, createCategory, getYouTubeVideos, deleteCategory } from '../src/api'
 import { connect } from 'react-redux'
 import { onSelectCategory } from '../redux/ActionCreators'
@@ -52,7 +52,7 @@ class ParentDashHome extends Component {
 
   render(){
     return(
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Image style={styles.image} source={require('../src/images/app4em.png')} />
         <Text style={styles.headingText}>Welcome To Your Dashboard!</Text>
         <Text style={styles.subHeadingText}> Please Enter a Category for Your Child</Text>
@@ -74,7 +74,7 @@ class ParentDashHome extends Component {
           <Button 
             title="Create Category"
             style={styles.button}
-            onPress={this.onSubmit()}                                         
+            onPress={this.onSubmit}                                         
           />
         </View>
         <View>
@@ -92,7 +92,7 @@ class ParentDashHome extends Component {
             )
           })}          
         </View>
-      </View>      
+      </ScrollView>      
     )
   }
 }
