@@ -9,8 +9,7 @@ const PlayVideoScreen = (props) => {
   return (
     <WebView 
       javaScriptEnabled={true}
-      source={{ uri: 'https://www.youtube.com/embed/' + videoId }}
-       
+      source={{ uri: 'https://www.youtube.com/embed/' + videoId }}       
     />
   )
 }

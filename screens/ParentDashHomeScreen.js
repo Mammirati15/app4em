@@ -34,10 +34,10 @@ class ParentDashHome extends Component {
   }
 
   onSubmit(){   
-    console.log('this.state.name', this.state.name) 
+    //console.log('this.state.name', this.state.name) 
     createCategory(this.state.name, this.state.keyWords)
       .then(resBody => {   
-        console.log(resBody)     
+        //console.log(resBody)     
         this.props.navigation.navigate("SelectVideoScreen", {category: resBody.data})//this.setState({catName: ''})
       })
   }

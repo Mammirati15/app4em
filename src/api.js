@@ -7,7 +7,7 @@ const youTubeApiUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet
 export const getYouTubeVideos = (categoryText) => {
   return Promise.resolve(youTubeData)
   // return fetch(youTubeApiUrl + categoryText)
-  //   .then(response => response.json())      
+  //   .then(response => response.json())          
 }
 
 export const getAllCategories = () => {
@@ -35,6 +35,19 @@ export const deleteCategory = (catId) => {
   }
   return fetch(apiUrl + '/' + catId, options)    
 }
+
+export const saveSelectedVideos = (catId, selectedVideoIds) => {
+  var options = {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(selectedVideoIds)
+  }
+  return fetch(apiUrl + '/' + catId + '/videos', options)
+    .then(response => response.json())
+} 
 
 const youTubeData = {
   "kind": "youtube#searchListResponse",

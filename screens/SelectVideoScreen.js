@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { ScrollView, View, Text, TouchableOpacity, StyleSheet, CheckBox, Image, Button } from 'react-native'
-import { getYouTubeVideos } from '../src/api'
+import { getYouTubeVideos, saveSelectedVideos } from '../src/api'
 
 
 class SelectVideoScreen extends Component{
@@ -18,13 +18,15 @@ class SelectVideoScreen extends Component{
   componentDidMount(){
     const category = this.props.navigation.getParam('category')
     this.setState({category})
-    getYouTubeVideos('tacos')
+    getYouTubeVideos(category.name)
       .then(result => {
-        for(var i=0; i<result.items.length; i++){
-          result.items[i].selected = false
+        //console.log('***result****', result)
+        for(var i=0; i<result.items.length; i++){          
+          const video = result.items[i]
+          video.selected = false
         }
         this.setState({videos: result.items})
-        console.log(result)
+        
       })
   }
   
@@ -38,13 +40,14 @@ class SelectVideoScreen extends Component{
   onSaveChangesPress(){
     const categoryId = this.state.category._id
     const selectedVideosIds = []
-    for(var i=0; i<this.state.videos.length; i++){
-      if(this.state.videos[i].selected){
-        selectedVideosIds.push(this.state.videos[i].id.videoId)
+    const videos = this.state.videos
+    for(var i=0; i<videos.length; i++){
+      if(videos[i].selected){
+        selectedVideosIds.push(videos[i].id.videoId)
       }
     }
-    console.log(selectedVideosIds)
-    api.saveSelectedVideos(categoryId, selectedVideosIds)
+    saveSelectedVideos(categoryId, selectedVideosIds)
+    this.props.navigation.navigate("ParentDashHomeScreen")//this.setState({catName: ''})
   }
   
   render(){
