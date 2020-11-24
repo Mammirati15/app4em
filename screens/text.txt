@@ -1,0 +1,533 @@
+react native notes
+
+npm i expo-cli -g
+expo init my-app
+select blank template
+
+
+cd my-app
+npm run web
+
+
+- install react navigation 5
+npm install @react-navigation/native
+expo install react-native-gesture-handler react-native-reanimated react-native-screens
+expo install react-native-safe-area-context @react-native-community/masked-view
+expo install react-native-screens
+
+
+mkdir screens
+touch screens/HomeScreen.js
+----------------------------------------
+import React from 'react'
+import { View, Text, StyleSheet, Button } from 'react-native'
+
+const HomeScreen = ({ navigation }) => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.headingText}>Home</Text>
+      <View style={styles.btnContainer}>
+        <View style={styles.topBtnContainer}>
+          <Button
+            title="Sign Up"
+            onPress={() => navigation.navigate('SignUp')}
+          />
+        </View>
+        <Button
+          title="Sign In"
+          onPress={() => navigation.navigate('SignIn')}
+        />
+      </View>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#3b4c8a'
+  },
+  headingText: {
+    fontSize: 24,
+    alignSelf: 'center',
+    margin: 20,
+    color: 'white'
+  },
+  btnContainer: {
+    width: '70%',
+    alignSelf: 'center'
+  },
+  topBtnContainer: {
+    marginBottom: 20
+  }
+})
+
+export default HomeScreen
+----------------------------------------
+
+
+touch SignInScreen.js
+----------------------------------------
+import React from 'react'
+import { View, Text, StyleSheet, Button } from 'react-native'
+
+const SignInScreen = () => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.headingText}>Sign In</Text>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#3b4c8a'
+  },
+  headingText: {
+    fontSize: 24,
+    alignSelf: 'center',
+    margin: 20,
+    color: 'white'
+  }
+})
+
+export default SignInScreen
+----------------------------------------
+
+
+touch SignUpScreen.js
+----------------------------------------
+import React from 'react'
+import { View, Text, StyleSheet, Button } from 'react-native'
+
+const SignUpScreen = () => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.headingText}>Sign Up</Text>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#3b4c8a'
+  },
+  headingText: {
+    fontSize: 24,
+    alignSelf: 'center',
+    margin: 20,
+    color: 'white'
+  }
+})
+
+export default SignUpScreen
+----------------------------------------
+
+
+mkdir navigation
+touch navigation/RootNavigation.js
+----------------------------------------
+import * as React from 'react';
+
+export const navigationRef = React.createRef();
+
+export function navigate(name, params) {
+  navigationRef.current?.navigate(name, params);
+}
+----------------------------------------
+
+
+touch navigation/AppNavigator.js
+----------------------------------------
+import React from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import { navigationRef } from './RootNavigation'
+
+import HomeScreen from './HomeScreen'
+import SignInScreen from './SignInScreen'
+import SignUpScreen from './SignUpScreen'
+
+const Stack = createStackNavigator()
+const options = {
+  headerTitle: 'Todo App',
+  headerStyle: { backgroundColor: '#3b4c8a' },
+  headerTintColor: 'white'
+}
+
+const AppNavigator = () => (
+  <NavigationContainer ref={navigationRef}>
+    <Stack.Navigator
+      initialRouteName="Home"
+      screenOptions={options}
+    >
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="SignIn" component={SignInScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} />
+    </Stack.Navigator>
+  </NavigationContainer>
+)
+
+export default AppNavigator
+----------------------------------------
+
+replace App.js code
+----------------------------------------
+import React from 'react'
+import AppNavigator from './navigation/AppNavigator'
+
+const App = () => (
+  <AppNavigator />
+)
+
+export default App
+----------------------------------------
+
+
+mkdir reducers
+touch reducers/index.js
+----------------------------------------
+const appReducer = (state={}, action) => {
+  return state
+}
+
+export default appReducer
+----------------------------------------
+
+
+replace App.js code
+----------------------------------------
+import React from 'react'
+import { Provider } from 'react-redux'
+import thunk from 'redux-thunk'
+import { createStore, applyMiddleware } from 'redux'
+
+import appReducer from './reducers'
+import AppNavigator from './navigation/AppNavigator'
+
+const store = applyMiddleware(thunk)(createStore)(appReducer)
+
+const App = () => (
+  <Provider store={store}>
+    <AppNavigator />
+  </Provider>
+)
+
+export default App
+----------------------------------------
+
+
+replace code in screens/HomeScreen.js
+----------------------------------------
+import React from 'react'
+import { View, Text, StyleSheet, Button } from 'react-native'
+import { connect } from 'react-redux'
+import { navigate } from '../navigation/RootNavigation'
+
+const HomeScreen = (props) => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.headingText}>Home</Text>
+      <View style={styles.btnContainer}>
+        <View style={styles.topBtnContainer}>
+          <Button
+            title="Sign Up"
+            onPress={() => props.navigate('SignUp')}
+          />
+        </View>
+        <Button
+          title="Sign In"
+          onPress={() => props.navigate('SignIn')}
+        />
+      </View>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#3b4c8a'
+  },
+  headingText: {
+    fontSize: 24,
+    alignSelf: 'center',
+    margin: 20,
+    color: 'white'
+  },
+  btnContainer: {
+    width: '70%',
+    alignSelf: 'center'
+  },
+  topBtnContainer: {
+    marginBottom: 20
+  }
+})
+
+export const mapDispatchToProps = () => ({
+  navigate: (screen) => {
+    navigate(screen)
+  }
+})
+
+export default connect(null, mapDispatchToProps)(HomeScreen)
+----------------------------------------
+
+
+mkdir actions
+touch actions/actionTypes.js
+----------------------------------------
+export const FORM_INPUT_CHANGE = 'FORM_INPUT_CHANGE'
+----------------------------------------
+
+touch actions/forms.js
+----------------------------------------
+import { FORM_INPUT_CHANGE } from '../actions/actionTypes'
+
+export const inputChange = (formName, inputName, value) => ({
+  type: FORM_INPUT_CHANGE,
+  payload: { formName, inputName, value }
+})
+----------------------------------------
+
+
+touch reducers/forms.js
+----------------------------------------
+import { FORM_INPUT_CHANGE } from '../actions/actionTypes';
+
+const initialState = {
+  formMessage: '',
+  signup: {
+    email: '',
+    password: '',
+    passwordConf: ''
+  },
+}
+
+const forms = (state=initialState, action) => {
+  if(!action) return state
+
+  let formName, inputName, value, newState
+
+  switch(action.type) {
+
+    case FORM_INPUT_CHANGE:
+      formName = action.payload.formName;
+      inputName = action.payload.inputName;
+      value = action.payload.value;
+
+      newState = Object.assign({}, state);
+      newState[formName][inputName] = value;
+      return newState;
+
+    default:
+      return state;
+  }
+}
+
+export default forms;
+----------------------------------------
+
+
+replace reducers/index.js
+----------------------------------------
+import { combineReducers } from 'redux';
+import forms from './forms';
+
+const appReducer = combineReducers({
+  forms
+});
+
+export default appReducer;
+----------------------------------------
+
+
+replace code in SignUpScreen.js
+----------------------------------------
+import React from 'react'
+import { View, Text, TextInput, StyleSheet, Button } from 'react-native'
+
+const SignUpScreen = () => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.headingText}>Sign Up</Text>
+      <View style={styles.formContainer}>
+        <TextInput
+          style={styles.textInput}
+          placeholder="first name"
+          placeholderTextColor="grey"
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="last name"
+          placeholderTextColor="grey"
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="email address"
+          placeholderTextColor="grey"
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="password"
+          placeholderTextColor="grey"
+          secureTextEntry
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="password (confirm)"
+          placeholderTextColor="grey"
+          secureTextEntry
+        />
+        <Button title="Sign Up" />
+      </View>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#3b4c8a'
+  },
+  headingText: {
+    fontSize: 24,
+    alignSelf: 'center',
+    margin: 20,
+    color: 'white'
+  },
+  textInput: {
+    borderColor: 'white',
+    borderWidth: 1,
+    height: 35,
+    borderRadius: 5,
+    paddingLeft: 10,
+    color: 'white',
+    marginBottom: 15
+  },
+  formContainer: {
+    width: '80%',
+    alignSelf: 'center'
+  }
+})
+
+export default SignUpScreen
+----------------------------------------
+
+
+replace code in SignUpScreen.js
+----------------------------------------
+import React from 'react'
+import { connect } from 'react-redux'
+import { View, Text, TextInput, StyleSheet, Button } from 'react-native'
+import {inputChange } from '../actions/forms'
+
+const SignUpScreen = () => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.headingText}>Sign Up</Text>
+      <View style={styles.formContainer}>
+        <TextInput
+          style={styles.textInput}
+          placeholder="first name"
+          placeholderTextColor="grey"
+          onTextChange={(value) => {
+            props.onInputChange('firstName', value)
+          }}
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="last name"
+          placeholderTextColor="grey"
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="email address"
+          placeholderTextColor="grey"
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="password"
+          placeholderTextColor="grey"
+          secureTextEntry
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="password (confirm)"
+          placeholderTextColor="grey"
+          secureTextEntry
+        />
+        <Button title="Sign Up" />
+      </View>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#3b4c8a'
+  },
+  headingText: {
+    fontSize: 24,
+    alignSelf: 'center',
+    margin: 20,
+    color: 'white'
+  },
+  textInput: {
+    borderColor: 'white',
+    borderWidth: 1,
+    height: 35,
+    borderRadius: 5,
+    paddingLeft: 10,
+    color: 'white',
+    marginBottom: 15
+  },
+  formContainer: {
+    width: '80%',
+    alignSelf: 'center'
+  }
+})
+  
+export const mapStateToProps = (state) => ({
+  email: state.forms.signup.email,
+  password: state.forms.signup.password,
+  passwordConf: state.forms.signup.passwordConf
+})
+
+export const mapDispatchToProps = (dispatch) => ({
+  onInputChange: (inputName, value) => {
+    dispatch( inputChange('signup', inputName, value) )
+  }
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignUpScreen)
+
+----------------------------------------
+
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------

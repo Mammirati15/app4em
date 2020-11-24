@@ -11,8 +11,9 @@ export const getYouTubeVideos = (categoryText) => {
 }
 
 export const getAllCategories = () => {
-  return fetch(apiUrl)
-    .then(response => response.json())
+  return Promise.resolve({data:categoryData})
+  // return fetch(apiUrl)
+  //   .then(response => response.json())
 }
 
 export const createCategory = (name, keyWords) => {
@@ -48,6 +49,10 @@ export const saveSelectedVideos = (catId, selectedVideoIds) => {
   return fetch(apiUrl + '/' + catId + '/videos', options)
     .then(response => response.json())
 } 
+
+const categoryData = [
+  {_id: "1", name: "dogs", keyWords: "dogs", videos: ["dogs", "cats"]}
+]
 
 const youTubeData = {
   "kind": "youtube#searchListResponse",

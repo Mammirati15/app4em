@@ -26,10 +26,10 @@ class SignUp extends Component {
         <Image style={styles.image} source={require('../src/images/app4em.png')} />       
         <Text style={styles.headingText}>Sign Up</Text>
         <View style={styles.formContainer}>
-          <Text style={{fontSize: 20, color: 'black'}}>{this.props.message}</Text>
+          <Text style={{fontSize: 20, color: 'blue'}}>{this.props.message}</Text>
           <TextInput 
             style={styles.textInput}
-            value={this.state.firstName}
+            value={this.state.userName}
             onChangeText={(newValue) => this.onChangeText("userName", newValue)}  
             placeholder="User Name"
             placeholderTextColor="grey"          
@@ -58,16 +58,17 @@ class SignUp extends Component {
           <Button 
             title="Sign Up"
             style={styles.button}
-            onPress={() => this.props.onSubmit(
-              {
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                email: this.state.email,
-                password: this.state.password,
-                passwordConf: this.state.passwordConf
-              },
+            onPress={() => {
+              // this.props.onSubmit(
+              // {
+              //   userName: this.state.userName,
+              //   lastName: this.state.lastName,
+              //   email: this.state.email,
+              //   password: this.state.password,
+              //   passwordConf: this.state.passwordConf
+              // },
               this.props.navigation.navigate('ParentDashHomeScreen')
-            )
+            }
           }        
           />
           <Text style={styles.member}>Already a Member?</Text>

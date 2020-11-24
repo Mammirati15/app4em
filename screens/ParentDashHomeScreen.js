@@ -23,9 +23,10 @@ class ParentDashHome extends Component {
 
   getAllCategories(){
     getAllCategories()
-      .then(result => {        
+      .then(result => { 
+        console.log(result)       
         this.setState({categories: result.data})
-      })
+      }).catch(console.log)
 
   }
 

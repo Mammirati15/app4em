@@ -1,9 +1,9 @@
 export const onSignUpSubmit = (userData, navigate) => {    
   return (dispatch) => {
-    if(!userData.firstName){
+    if(!userData.userName){
       dispatch({
         type: 'SIGNUP_SUBMIT_FAILED',
-        message: 'First Name is Required'
+        message: 'User Name is Required'
       })
       return Promise.resolve()
     }
