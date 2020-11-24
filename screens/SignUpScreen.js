@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button as Rnebutton} from 'react-native-elements'
 import { ScrollView, TextInput, View, Text, StyleSheet, Button, Image} from 'react-native'
-import { onSignUpSubmit } from '../redux/ActionCreators'
+import { fetchCategories } from '../src/redux/actions/ActionCreators'
 
 class SignUp extends Component {
   constructor(props){
@@ -59,7 +59,7 @@ class SignUp extends Component {
             title="Sign Up"
             style={styles.button}
             onPress={() => {
-              // this.props.onSubmit(
+              this.props.onSubmit(this.props.navigation.navigate)
               // {
               //   userName: this.state.userName,
               //   lastName: this.state.lastName,
@@ -67,7 +67,7 @@ class SignUp extends Component {
               //   password: this.state.password,
               //   passwordConf: this.state.passwordConf
               // },
-              this.props.navigation.navigate('ParentDashHomeScreen')
+              //this.props.navigation.navigate('ParentDashHomeScreen')
             }
           }        
           />
@@ -131,8 +131,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  onSubmit: function(userData, navigate){
-    dispatch( onSignUpSubmit(userData, navigate) )
+  onSubmit: function(navigate){
+    dispatch( fetchCategories(navigate) )
   }
 })
 

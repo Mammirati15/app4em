@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button as Rnebutton} from 'react-native-elements'
 import { TextInput, View, Text, StyleSheet, Button, Image} from 'react-native'
-import { onSignInSubmit } from '../redux/ActionCreators'
+import { onSignInSubmit } from '../src/redux/actions/ActionCreators'
 
 class SignIn extends Component {
   constructor(props){

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { TextInput, View, ScrollView, Text, StyleSheet, Button, Image} from 'react-native'
 import { getAllCategories, createCategory, getYouTubeVideos, deleteCategory } from '../src/api'
 import { connect } from 'react-redux'
-import { onSelectCategory } from '../redux/ActionCreators'
+import { onSelectCategory } from '../src/redux/actions/ActionCreators'
 
 
 class ParentDashHome extends Component {
@@ -10,25 +10,16 @@ class ParentDashHome extends Component {
     super(props)
     this.state = {
       name: '',
-      keyWords: '',
-      categories: []
+      keyWords: ''      
     }
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentDidMount(){
-    this.getAllCategories()
-    getYouTubeVideos()
-  }
+  // componentDidMount(){
+  //   this.getAllCategories()
+  //   getYouTubeVideos()
+  // }
 
-  getAllCategories(){
-    getAllCategories()
-      .then(result => { 
-        console.log(result)       
-        this.setState({categories: result.data})
-      }).catch(console.log)
-
-  }
 
   onChangeText(field, value){
     this.setState({[field]:  value})
@@ -79,7 +70,7 @@ class ParentDashHome extends Component {
           />
         </View>
         <View>
-          {this.state.categories.map((category) => {
+          {this.props.categories.map((category) => {
             return (
               <View style={styles.categoryItemContainer}>
                 <Text style={styles.categoryItemText} key={category._id}>{category.name}</Text>
@@ -151,7 +142,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    message: state.main.message
+    //message: state.main.message,
+    categories: state.categories.categories
   }
 }
 

@@ -1,3 +1,6 @@
+import { getAllCategories } from '../../api'
+import { FETCH_CATEGORIES_SUCCESS } from './ActionTypes'
+
 export const onSignUpSubmit = (userData, navigate) => {    
   return (dispatch) => {
     if(!userData.userName){
@@ -28,7 +31,7 @@ export const onSignUpSubmit = (userData, navigate) => {
       .catch((err) => {
         console.log(err)
       })           
-  }    
+    }    
 }
 
 export const onSignInSubmit = (userData, navigate) => {    
@@ -60,8 +63,19 @@ export const onSignInSubmit = (userData, navigate) => {
       })
       .catch((err) => {
         console.log(err)
-      })           
+      })
+      
+    
   }    
+}
+
+export const fetchCategories = (navigate) => {
+  return async (dispatch) => {
+    const result = await getAllCategories()
+    const categories = result.data
+    dispatch({type: FETCH_CATEGORIES_SUCCESS, payload: categories})
+    navigate('ParentDashHomeScreen')
+  }
 }
 
 export const onSelectCategory = (catInfo, navigate) => {    
