@@ -17,16 +17,19 @@ export const getAllCategories = () => {
 }
 
 export const createCategory = (name, keyWords) => {
-  var options = {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ name, keyWords})
-  }
-  return fetch(apiUrl, options)
-    .then(response => response.json())
+  const category = {_id: nextCategoryId++, name, keyWords, videos: []}
+  categoryData.push(category)
+  return Promise.resolve({data: category})
+  // var options = {
+  //   method: 'POST',
+  //   mode: 'cors',
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   },
+  //   body: JSON.stringify({ name, keyWords})
+  // }
+  // return fetch(apiUrl, options)
+  //   .then(response => response.json())
 }
 
 export const deleteCategory = (catId) => {
@@ -50,8 +53,9 @@ export const saveSelectedVideos = (catId, selectedVideoIds) => {
     .then(response => response.json())
 } 
 
+let nextCategoryId = 2
 const categoryData = [
-  {_id: "1", name: "dogs", keyWords: "dogs", videos: ["dogs", "cats"]}
+  {_id: 1, name: "dogs", keyWords: "dogs", videos: ["dogs", "cats"]}
 ]
 
 const youTubeData = {

@@ -1,5 +1,7 @@
-import { getAllCategories } from '../../api'
-import { FETCH_CATEGORIES_SUCCESS } from './ActionTypes'
+import { getAllCategories, createCategory, getYouTubeVideos } from '../../api'
+import { FETCH_CATEGORIES_SUCCESS , FETCH_YOUTUBE_VIDEOS_SUCCESS, CATEGORY_CREATE_FAILURE} from './ActionTypes'
+import { navigate } from '../../../navigation/RootNavigation'
+import SelectVideoScreen from '../../../screens/SelectVideosScreen'
 
 export const onSignUpSubmit = (userData, navigate) => {    
   return (dispatch) => {
@@ -78,38 +80,63 @@ export const fetchCategories = (navigate) => {
   }
 }
 
-export const onSelectCategory = (catInfo, navigate) => {    
-  return (dispatch) => {
-    if(!catInfo.catName){
+export const saveCategory = (name, keyWords) => {  
+  
+  return async (dispatch) => {
+    if(!name){
       dispatch({
-        type: 'CATEGORY_SELECT_FAILED',
-        message: 'Category is Required'
+        type: CATEGORY_CREATE_FAILURE,
+        payload:'Category is Required'
       })
       return Promise.resolve()
     }
-    const options = {    
-      method: 'POST', 
-      mode: 'cors',    
-      headers: {
-        'Content-Type': 'application/json'        
-      },      
-      body: JSON.stringify(catInfo) 
-    }
 
-    return fetch('http://localhost:3000/categories', options)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data)
-        navigate('Home')
-        dispatch({
-          type: 'foo'
-        })
-      })
-      .catch((err) => {
-        console.log(err)
-      })           
-  }    
+    await createCategory(name, keyWords)
+    const result = await getYouTubeVideos(name)
+      
+    for(var i=0; i<result.items.length; i++){          
+      const video = result.items[i]
+      video.selected = false
+    }
+    dispatch({
+      type: FETCH_YOUTUBE_VIDEOS_SUCCESS,
+      payload: {videos: result.items}
+    })       
+      
+    navigate("SelectVideoScreen")
+  }
 }
+  // return (dispatch) => {
+  //   if(!catInfo.catName){
+  //     dispatch({
+  //       type: 'CATEGORY_SELECT_FAILED',
+  //       message: 'Category is Required'
+  //     })
+  //     return Promise.resolve()
+  //   }
+  //   const options = {    
+  //     method: 'POST', 
+  //     mode: 'cors',    
+  //     headers: {
+  //       'Content-Type': 'application/json'        
+  //     },      
+  //     body: JSON.stringify(catInfo) 
+  //   }
+
+  //   return fetch('http://localhost:3000/categories', options)
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       console.log(data)
+  //       navigate('Home')
+  //       dispatch({
+  //         type: 'foo'
+  //       })
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })           
+      
+
 
         // dispatch({
         //   type: 'SIGNUP_SUBMIT_SUCCESS', 

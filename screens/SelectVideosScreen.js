@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import { ScrollView, View, Text, TouchableOpacity, StyleSheet, CheckBox, Image, Button } from 'react-native'
 import { getYouTubeVideos, saveSelectedVideos } from '../src/api'
 
@@ -6,29 +7,11 @@ import { getYouTubeVideos, saveSelectedVideos } from '../src/api'
 class SelectVideoScreen extends Component{
   constructor(props){
     super(props)
-    this.state = {
-      category: {},
-      videos: [],
-      
-    }
+    
     this.onCheckboxChange = this.onCheckboxChange.bind(this)
     this.onSaveChangesPress = this.onSaveChangesPress.bind(this)    
   }
 
-  componentDidMount(){
-    const category = this.props.navigation.getParam('category')
-    this.setState({category})
-    getYouTubeVideos(category.name)
-      .then(result => {
-        //console.log('***result****', result)
-        for(var i=0; i<result.items.length; i++){          
-          const video = result.items[i]
-          video.selected = false
-        }
-        this.setState({videos: result.items})
-        
-      })
-  }
   
   onCheckboxChange(index, newValue){    
     let videosCopy = [...this.state.videos]
@@ -62,7 +45,7 @@ class SelectVideoScreen extends Component{
             width= '80%'
           />                 
           <View style={styles.categoryContainer}>            
-            {this.state.videos.map((video, index) => {
+            {this.props.videos.map((video, index) => {
               return (                
                 <View style={{flexDirection: "row"}} >
                   <CheckBox 
@@ -121,5 +104,9 @@ const styles = StyleSheet.create({
   }
 })
 
+const mapStateToProps = (state) => ({
+  videos: state.categoryVideos.videos
+})
 
-export default SelectVideoScreen;
+
+export default connect(mapStateToProps)(SelectVideoScreen);

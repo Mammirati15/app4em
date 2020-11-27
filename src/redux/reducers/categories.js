@@ -1,7 +1,9 @@
-import { FETCH_CATEGORIES_SUCCESS } from '../actions/actionTypes';
+import { FETCH_CATEGORIES_SUCCESS, CATEGORY_CREATE_FAILURE } from '../actions/actionTypes';
 
 const initialState = {
-  categories: []
+  categories: [],
+  categoryVideos: [],
+  formMessage: ""
 }
 
 const categories = (state=initialState, action) => {
@@ -14,6 +16,11 @@ const categories = (state=initialState, action) => {
     case FETCH_CATEGORIES_SUCCESS:
       newState = Object.assign({}, state);
       newState.categories = action.payload;
+      return newState;
+
+      case CATEGORY_CREATE_FAILURE:
+      newState = Object.assign({}, state);
+      newState.formMessage = action.payload;
       return newState;
 
     default:

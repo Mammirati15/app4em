@@ -10,7 +10,7 @@ import ParentDashHomeScreen from '../screens/ParentDashHomeScreen'
 import KidsCategoriesScreen from '../screens/KidsCategoriesScreen'
 import KidsCategoryVideosScreen from '../screens/KidsCategoryVideosScreen'
 import PlayVideoScreen from '../screens/PlayVideoScreen'
-import SelectVideoScreen from '../screens/SelectVideoScreen'
+import SelectVideosScreen from '../screens/SelectVideosScreen'
 
 // const MainNav = createStackNavigator({
   
@@ -42,6 +42,7 @@ const MainNav = () => (
       <Stack.Screen name="SignIn" component={SignIn} />
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="ParentDashHomeScreen" component={ParentDashHomeScreen} />
+      <Stack.Screen name="SelectVideosScreen" component={SelectVideosScreen} />
     </Stack.Navigator>
   </NavigationContainer>
 )
