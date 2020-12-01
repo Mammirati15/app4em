@@ -148,6 +148,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
     onSubmit: function(name, keyWords){
+      console.log(name)
       dispatch( saveCategory(name, keyWords) )
     }
 })

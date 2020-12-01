@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { ScrollView, View, Text, TouchableOpacity, StyleSheet, CheckBox, Image, Button } from 'react-native'
+import {selectYouTubeVideo} from '../src/redux/actions/ActionCreators'
 import { getYouTubeVideos, saveSelectedVideos } from '../src/api'
 
 
-class SelectVideoScreen extends Component{
+class SelectVideosScreen extends Component{
   constructor(props){
     super(props)
     
@@ -12,13 +13,6 @@ class SelectVideoScreen extends Component{
     this.onSaveChangesPress = this.onSaveChangesPress.bind(this)    
   }
 
-  
-  onCheckboxChange(index, newValue){    
-    let videosCopy = [...this.state.videos]
-    videosCopy[index].selected = newValue    
-    this.setState({videos: videosCopy})
-    console.log(this.state.videos)
-  }
 
   onSaveChangesPress(){
     const categoryId = this.state.category._id
@@ -45,12 +39,12 @@ class SelectVideoScreen extends Component{
             width= '80%'
           />                 
           <View style={styles.categoryContainer}>            
-            {this.props.videos.map((video, index) => {
+            {this.props.youTubeVideos.map((video, index) => {
               return (                
                 <View style={{flexDirection: "row"}} >
                   <CheckBox 
                     value={video.selected}
-                    onValueChange={(newValue) => this.onCheckboxChange(index, newValue)}
+                    onValueChange={(newValue) => this.props.onCheckboxChange(index, newValue)}
                     style={styles.checkbox}
                   />
                   <TouchableOpacity key={video.id.videoId}>
@@ -105,8 +99,15 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state) => ({
-  videos: state.categoryVideos.videos
+  categoryVideos: state.categories.categoryVideos,
+  youTubeVideos: state.categories.youTubeVideos
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  onCheckboxChange(videoIndex, selected) {
+    dispatch(selectYouTubeVideo(videoIndex, selected))
+  }
 })
 
 
-export default connect(mapStateToProps)(SelectVideoScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SelectVideosScreen);

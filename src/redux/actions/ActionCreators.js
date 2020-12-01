@@ -1,7 +1,7 @@
 import { getAllCategories, createCategory, getYouTubeVideos } from '../../api'
 import { FETCH_CATEGORIES_SUCCESS , FETCH_YOUTUBE_VIDEOS_SUCCESS, CATEGORY_CREATE_FAILURE} from './ActionTypes'
 import { navigate } from '../../../navigation/RootNavigation'
-import SelectVideoScreen from '../../../screens/SelectVideosScreen'
+import SelectVideosScreen from '../../../screens/SelectVideosScreen'
 
 export const onSignUpSubmit = (userData, navigate) => {    
   return (dispatch) => {
@@ -100,11 +100,22 @@ export const saveCategory = (name, keyWords) => {
     }
     dispatch({
       type: FETCH_YOUTUBE_VIDEOS_SUCCESS,
-      payload: {videos: result.items}
+      payload: result.items
     })       
       
-    navigate("SelectVideoScreen")
+    navigate("SelectVideosScreen")
   }
+}
+
+export const selectYouTubeVideo(videoIndex, selected){
+  
+  return async (dispatch) => {
+
+  }
+  let videosCopy = [...this.state.videos]
+  videosCopy[index].selected = newValue    
+  this.setState({videos: videosCopy})
+  console.log(this.state.videos)
 }
   // return (dispatch) => {
   //   if(!catInfo.catName){

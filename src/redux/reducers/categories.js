@@ -1,8 +1,13 @@
-import { FETCH_CATEGORIES_SUCCESS, CATEGORY_CREATE_FAILURE } from '../actions/actionTypes';
+import { 
+  FETCH_CATEGORIES_SUCCESS, 
+  CATEGORY_CREATE_FAILURE, 
+  FETCH_YOUTUBE_VIDEOS_SUCCESS 
+} from '../actions/ActionTypes';
 
 const initialState = {
   categories: [],
   categoryVideos: [],
+  youTubeVideos: [],
   formMessage: ""
 }
 
@@ -18,12 +23,17 @@ const categories = (state=initialState, action) => {
       newState.categories = action.payload;
       return newState;
 
-      case CATEGORY_CREATE_FAILURE:
+    case CATEGORY_CREATE_FAILURE:
       newState = Object.assign({}, state);
       newState.formMessage = action.payload;
       return newState;
 
-    default:
+    case FETCH_YOUTUBE_VIDEOS_SUCCESS:
+      newState = Object.assign({}, state);
+      newState.youTubeVideos = action.payload;
+      return newState;
+    
+      default:
       return state;
   }
 }
