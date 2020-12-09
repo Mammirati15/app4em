@@ -65,13 +65,13 @@ const [keyWords, setKeyWords] = useState("")
     <View>
       {props.categories.map((category) => {
         return (
-          <View style={styles.categoryItemContainer}>
-            <Text style={styles.categoryItemText} key={category._id}>{category.name}</Text>
+          <View key={category._id} style={styles.categoryItemContainer}>
+            <Text style={styles.categoryItemText} >{category.name}</Text>
             <Button
               color= 'red' 
               title="Delete"                  
               style={styles.deleteButton}
-              //onPress={() => this.onDeleteButtonPress(category._id)}
+              onPress={() => {}}
             />
           </View>
         )

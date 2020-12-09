@@ -1,64 +1,56 @@
-import React, {Component} from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import { ScrollView, View, Text, TouchableOpacity, StyleSheet, CheckBox, Image, Button } from 'react-native'
+import { ScrollView, View, Text, TouchableOpacity, StyleSheet,  Image, Button } from 'react-native'
+import { CheckBox } from 'react-native-elements'
 import {selectYouTubeVideo} from '../src/redux/actions/ActionCreators'
-import { getYouTubeVideos, saveSelectedVideos } from '../src/api'
+import { saveSelectedVideos } from '../src/api'
 
 
-class SelectVideosScreen extends Component{
-  constructor(props){
-    super(props)
-    
-    this.onCheckboxChange = this.onCheckboxChange.bind(this)
-    this.onSaveChangesPress = this.onSaveChangesPress.bind(this)    
-  }
 
 
-  onSaveChangesPress(){
-    const categoryId = this.state.category._id
-    const selectedVideosIds = []
-    const videos = this.state.videos
-    for(var i=0; i<videos.length; i++){
-      if(videos[i].selected){
-        selectedVideosIds.push(videos[i].id.videoId)
-      }
-    }
-    saveSelectedVideos(categoryId, selectedVideosIds)
-    this.props.navigation.navigate("ParentDashHomeScreen")//this.setState({catName: ''})
-  }
+
+  // onSaveChangesPress(){
+  //   const categoryId = this.state.category._id
+  //   const selectedVideosIds = []
+  //   const videos = this.state.videos
+  //   for(var i=0; i<videos.length; i++){
+  //     if(videos[i].selected){
+  //       selectedVideosIds.push(videos[i].id.videoId)
+  //     }
+  //   }
+  //   saveSelectedVideos(categoryId, selectedVideosIds)
+  //   this.props.navigation.navigate("ParentDashHomeScreen")//this.setState({catName: ''})
+  // }
+const SelectVideosScreen = (props) => (
+  <ScrollView style={styles.container}>        
+    <Image style={styles.image} source={require('../src/images/app4em.png')} />
+    <Text style={styles.headingText}>Select Your Videos</Text>           
+    {/*<Button 
+        title="Save Changes"
+        onPress={props.onSaveChangesPress}
+        style={styles.button}
+        width= '80%'
+    />  */}               
+      <View style={styles.categoryContainer}>            
+        {props.youTubeVideos.map((video, videoIndex) => {
+          return (                
+            <View key={videoIndex} style={{flexDirection: "row"}} >
+              <CheckBox 
+                checked={video.selected}
+                onPress={() => props.onCheckboxChange(videoIndex)}
+                style={styles.checkbox}
+              />
+              
+                <Text style={styles.categoryItem} >{video.snippet.title}</Text>
+              
+            </View>                              
+          )                
+        })}          
+      </View>                          
+  </ScrollView>    
+)
   
-  render(){
-    return(
-      <ScrollView style={styles.container}>        
-        <Image style={styles.image} source={require('../src/images/app4em.png')} />
-        <Text style={styles.headingText}>Select Your Videos</Text>           
-        <Button 
-            title="Save Changes"
-            onPress={this.onSaveChangesPress}
-            style={styles.button}
-            width= '80%'
-          />                 
-          <View style={styles.categoryContainer}>            
-            {this.props.youTubeVideos.map((video, index) => {
-              return (                
-                <View style={{flexDirection: "row"}} >
-                  <CheckBox 
-                    value={video.selected}
-                    onValueChange={(newValue) => this.props.onCheckboxChange(index, newValue)}
-                    style={styles.checkbox}
-                  />
-                  <TouchableOpacity key={video.id.videoId}>
-                    <Text style={styles.categoryItem} >{video.snippet.title}</Text>
-                  </TouchableOpacity>
-                </View>                              
-              )                
-            })}          
-          </View>
-                             
-      </ScrollView>    
-    )
-  }
-}
+
 
 const styles = StyleSheet.create({
   container: {
@@ -104,8 +96,10 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  onCheckboxChange(videoIndex, selected) {
-    dispatch(selectYouTubeVideo(videoIndex, selected))
+  onCheckboxChange(videoIndex) {
+    console.log(videoIndex) 
+    dispatch(selectYouTubeVideo(videoIndex))
+    
   }
 })
 

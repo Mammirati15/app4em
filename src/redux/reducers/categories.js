@@ -1,10 +1,11 @@
 import { 
   FETCH_CATEGORIES_SUCCESS, 
   CATEGORY_CREATE_FAILURE, 
-  FETCH_YOUTUBE_VIDEOS_SUCCESS 
+  FETCH_YOUTUBE_VIDEOS_SUCCESS,
+  YOUTUBE_VIDEO_SELECTED 
 } from '../actions/ActionTypes';
 
-const initialState = {
+let initialState = {
   categories: [],
   categoryVideos: [],
   youTubeVideos: [],
@@ -14,7 +15,7 @@ const initialState = {
 const categories = (state=initialState, action) => {
   if(!action) return state
 
-  let newState
+  let newState, videoIndex, video
 
   switch(action.type) {
 
@@ -32,8 +33,18 @@ const categories = (state=initialState, action) => {
       newState = Object.assign({}, state);
       newState.youTubeVideos = action.payload;
       return newState;
+
+    case YOUTUBE_VIDEO_SELECTED: 
+      console.log(action.payload)     
+      videoIndex = action.payload
+      newState = Object.assign({}, state);
+      video = newState.youTubeVideos[videoIndex]
+      video.selected = !video.selected
+      video.snippet.title += " selected" 
+      console.log(video)               
+      return newState
     
-      default:
+    default:
       return state;
   }
 }
